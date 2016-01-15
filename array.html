@@ -4,25 +4,28 @@
   <title> Advanced JavaScript Project: Constructing Array Objects </title>
   <meta charset="utf-8">
   <script>
-    var myArray = [1, 2, 3, 4];
-    console.log(myArray);
-    var name = "newArray";
-    myArray.push(name);
-    var list = function (myArray){
-    	for (var i = 0; i < myArray.length; i ++) {
-    		console.log(i + " " + myArray[i]);
-    	}
+function definedArray (name){
+    this.array = [1, 2, 3];
+    this.name = name;
+    this.list = function(){
+        for (var i =0; i< this.array.length; i++) {
+            console.log(this.array[i]);
+        }
     }
-    myArray.push(list);
-    function displayArray(arr) {
-    	for (var j = 0; j < arr.length; j ++) {
-    		console.log(j + " " + arr[j]);
-    		if(j == arr.length - 1) {
-    			arr[j](arr);
-    		}
-    	}
+}
+
+var myArray = new definedArray("myArray");
+console.log(myArray.array);
+myArray.list();
+
+function displayArray(myArray) {
+    for (key in myArray) {
+        console.log(myArray[key]);
     }
-    displayArray(myArray);
+}
+
+displayArray(myArray);
+
   </script>
 </head>
 <body>
