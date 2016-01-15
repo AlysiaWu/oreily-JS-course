@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <title> setTimeout </title>
+  <meta charset="utf-8">
+  <script>
+    var count = 0;
+    function setTimeoutRecur() {   	
+    	setTimeout(function() {  
+		    count++;		   
+		    if(count < 10) {
+		    	setTimeoutRecur();				
+	     		} 
+	     	console.log(count);	
+		}, 10000);      	
+    }
+    // rewrite the code above here so that it displays a counter once every
+    // 10 seconds. The console should show the numbers 1 - 10.
+setTimeoutRecur();
+  </script>
+</head>
+<body>
+</body>
+</html>

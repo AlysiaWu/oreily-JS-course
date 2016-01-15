@@ -6,33 +6,21 @@
   <script>
 
 function modifyFunction(f) {
-    console.log("gg");
     return function() {
-        console.log("ll");
         var returnValue = f.apply(this, arguments);
-        console.log(f);
+
         if (returnValue == undefined) {
-            console.log("haha");
-            console.log(this[o]);
-            return this[o];
+            return this;
         } else {
             return returnValue;
         }
-    }();
+    };
 }
 
-
 function modifyMethod(o, m) {
-    // your code here
-    // var method = eval(m);
-    // console.log(method);
     if(o.hasOwnProperty(m) && o[m] instanceof Function) {
-        console.log(o);
-        console.log(m);
-        console.log("o[m]", o[m]);
         o[m]=modifyFunction(o[m]);       
-    }
-   
+    }  
 };   
 
 var o = {

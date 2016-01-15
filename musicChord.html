@@ -45,17 +45,17 @@ function addNote(event) {
       function checkChord() {       
         if (count == 3) {
             var chord = document.getElementById("notesDisplay").value;
+            var msg ="you not have entered a major triad chord!";
             for (key in validChords) {
                 if (chord == validChords[key]) {
-                    var msg = document.getElementById("message").innerHTML;
-                    msg += "you have entered a major triad chord!";
-                    document.getElementById("message").innerHTML=msg;
-                    document.getElementById("notesDisplay").value="";
-
-                }
+                    msg = "you have entered a major triad chord!";              
+                } 
             }
+            document.getElementById("message").innerHTML=msg;
+            document.getElementById("notesDisplay").value="";
+            count = 0;
         }
-    }
+    } 
 
 }              
              

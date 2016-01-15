@@ -46,67 +46,45 @@
     }
   </style>
   <script>
-
-    // your code here
     function Bug(id){
         var oimg = document.createElement("img");
         oimg.setAttribute("src", 'ladybug.png');
-        document.getElementById(id).appendChild(oimg);
+        var div = document.createElement("div");
+        div.appendChild(oimg);
+        div.className= "bug";
+        document.getElementById(id).appendChild(div);
+        document.getElementsByTagName("img")[0].className = "Bug"; 
 
         this.moveBug= function(keyCode) {
             if (keyCode == 106) {
                 var ladybug = document.getElementsByTagName("img")[0];
-                console.log(ladybug);
-                if (ladybug.className.indexOf("down") < 0) {
-                    if (ladybug.className == "") {
-                        ladybug.className += "down"; 
-                    } else {
-
-                    ladybug.className += " down";                    
-                    }
-                }
+                console.log(ladybug);               
+                        ladybug.className = "down"; 
+                        console.log("hah"+div.style.top);
+                        div.style.top =1000 +" px";
             }
-
                if (keyCode == 107) {
                 var ladybug = document.getElementsByTagName("img")[0];
                 console.log(ladybug);
-                if (ladybug.className.indexOf("up") < 0) {
-                      if (ladybug.className == "") {
-                           ladybug.className += "up"; 
-                      } else {
-                         ladybug.className += " up";
-                      }
-                                   
-                }
+                           ladybug.className = "up"; 
             }
 
              if (keyCode == 104) {
                 var ladybug = document.getElementsByTagName("img")[0];
-                console.log(ladybug);
-                if (ladybug.className.indexOf("left") < 0) {
-                      if (ladybug.className == "") {
-                         ladybug.className += "left"; 
-                      } else{
-                          ladybug.className += " left"; 
-                      }
-                                     
-                }
+                console.log(ladybug);                  
+                         ladybug.className = "left"; 
             }
 
              if (keyCode == 108) {
                 var ladybug = document.getElementsByTagName("img")[0];
                 console.log(ladybug);
-                if (ladybug.className.indexOf("right") < 0) {
-                     if (ladybug.className == "") {
-                        ladybug.className += "right";   
-                     } else {
-                           ladybug.className += " right";
-                     }                                    
+
+                        ladybug.className = "right";                                         
                 }
             }
 
         }
-    }
+    
     
     window.onload = function() {
         var bug = new Bug("container");

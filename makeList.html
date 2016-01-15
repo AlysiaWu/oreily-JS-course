@@ -4,14 +4,15 @@
   <title> Make an HTML list </title>
   <meta charset="utf-8">
   <script>
-    function makeList(n1, n2, n3, n4) {
-      var ulString = "<ul>";
-       for(var i=0; i < arguments.length; i ++) {
+    function makeList() {
+      var ulString = "<" + arguments[0] + ">";
+      console.log(arguments);
+       for(var i=1; i < arguments.length; i ++) {
           ulString += "<li>";
           ulString += arguments[i];
           ulString += "</li>";
        }
-       ulString += "</ul>";
+       ulString += "</"+arguments[0]+">";
        return ulString;
     }
     
