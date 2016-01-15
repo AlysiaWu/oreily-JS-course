@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+  <title> JavaScript Environment: Project </title>
+  <meta charset="utf-8">
+  <style>
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+    }
+    #canvas {
+        background-color: yellow;
+        width: 100%;
+        height: 100%;
+    }
+    .pen {
+        position: absolute;
+        background-color: lightblue;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+    }
+  </style>
+  <script>       
+    window.onload = function() {
+        // your code here
+      var canvas = document.getElementById("canvas");
+      window.addEventListener('mouseup', function(event){
+        // do logic here
+        console.log('mouseup');
+        // draw();
+
+      })
+        
+      window.addEventListener('mousedown', function(event){
+      // do logic here
+      console.log('mousedown');
+      var div = document.createElement("div");
+      div.className = "pen";
+      canvas.appendChild(div);
+      div.style.left = event.clientX + "px";
+      div.style.top = event.clientY + "px";
+      })
+
+      window.addEventListener('mousemove', function(event){
+      // do logic here
+      console.log('mousemove');
+      console.log(event);
+      var div = document.createElement("div");
+      canvas.appendChild(div);
+
+      div.className = "pen";
+      div.style.left = event.clientX + "px";
+      div.style.top = event.clientY + "px";
+      })
+    };
+
+    // function draw(event) {
+    //   // console.log("event");
+    //   console.log(event);
+    //   var div = document.createElement("div");
+    //   div.className = "pen";
+
+    //   div.style.left = event.clientX + "px";
+    //   div.style.top = event.clientY + "px";
+    // }
+
+  </script>
+</head>
+<body>
+  <div id="canvas"></div>
+</body>
+</html> 

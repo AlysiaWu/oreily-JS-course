@@ -28,3 +28,7 @@
 .close:hover {
     color: orange;
 }
+
+.showOverlay .previewOverlay {
+    display: block;
+}
