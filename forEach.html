@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <title> Functions: forEach </title>
+  <meta charset="utf-8">
+  <script>
+ 	function forEach(array, f) {
+  	for (var i = 0; i < array.length; i ++) {
+  		f(array[i], i, array);
+  	}
+  }
+    var zeros = [0, 0, 0, 0];
+
+ 	function showArray(arrayi, i, array){
+ 		console.log("array[" + i +"] = " + arrayi);	
+  }
+
+  	var randomArr=[];
+    function makeArrayRandom(arri) {  
+    	arri=Math.floor(Math.random() * 4);
+    	randomArr.push(arri);
+    }
+
+    function isNextGreater(arri, i, array) { 
+		if (array[i+1] > array[i]) {
+			array[i] = -1;
+		}
+    }
+    
+    console.log("Foreach");
+    console.log("Display the array");
+    forEach(zeros, showArray);
+    console.log("Random array");
+    forEach(zeros, makeArrayRandom); 
+    forEach(randomArr, showArray);
+    console.log("copyOfZeros array");
+
+	var copyOfZeros = [];
+	randomArr.map(function(x){
+		copyOfZeros.push(x);
+	    });
+	forEach(copyOfZeros, showArray);
+	console.log("Is next greater:");
+	console.log("Zeros array:");
+    forEach(copyOfZeros, isNextGreater);
+    forEach(copyOfZeros, showArray);
+
+
+
+  </script>
+</head>
+<body>
+</body>
+</html>

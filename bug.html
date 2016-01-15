@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+  <title> setTimeout </title>
+  <meta charset="utf-8">
+  <style>
+    html, body {
+        margin: 0px;
+        padding: 0px;
+    }
+    div#container {
+        position: relative;
+    }
+    div.bug {
+        position: absolute;
+        width: 100px;
+        height: 76px;
+        -webkit-transition: -webkit-transform 2s;
+        -moz-transition: -moz-transform 2s;
+        -o-transition: -o-transform 2s;
+        transition: transform 2s;
+    }
+    .up {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+    .down {
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+    .right {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+    .left {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+  </style>
+  <script>
+
+    // your code here
+    function Bug(id){
+        var oimg = document.createElement("img");
+        oimg.setAttribute("src", 'ladybug.png');
+        document.getElementById(id).appendChild(oimg);
+
+        this.moveBug= function(keyCode) {
+            if (keyCode == 106) {
+                var ladybug = document.getElementsByTagName("img")[0];
+                console.log(ladybug);
+                if (ladybug.className.indexOf("down") < 0) {
+                    if (ladybug.className == "") {
+                        ladybug.className += "down"; 
+                    } else {
+
+                    ladybug.className += " down";                    
+                    }
+                }
+            }
+
+               if (keyCode == 107) {
+                var ladybug = document.getElementsByTagName("img")[0];
+                console.log(ladybug);
+                if (ladybug.className.indexOf("up") < 0) {
+                      if (ladybug.className == "") {
+                           ladybug.className += "up"; 
+                      } else {
+                         ladybug.className += " up";
+                      }
+                                   
+                }
+            }
+
+             if (keyCode == 104) {
+                var ladybug = document.getElementsByTagName("img")[0];
+                console.log(ladybug);
+                if (ladybug.className.indexOf("left") < 0) {
+                      if (ladybug.className == "") {
+                         ladybug.className += "left"; 
+                      } else{
+                          ladybug.className += " left"; 
+                      }
+                                     
+                }
+            }
+
+             if (keyCode == 108) {
+                var ladybug = document.getElementsByTagName("img")[0];
+                console.log(ladybug);
+                if (ladybug.className.indexOf("right") < 0) {
+                     if (ladybug.className == "") {
+                        ladybug.className += "right";   
+                     } else {
+                           ladybug.className += " right";
+                     }                                    
+                }
+            }
+
+        }
+    }
+    
+    window.onload = function() {
+        var bug = new Bug("container");
+
+        // j = 106 (down), k = 107 (up), h = 104 (left) , l = 108 (right)
+        document.onkeypress = function(e) {
+            bug.moveBug((typeof e.which == "number") ? e.which : e.keyCode);
+        }
+    };
+
+  </script>
+</head>
+<body>
+  <div id="container">
+
+  </div>
+</body>
+</html>

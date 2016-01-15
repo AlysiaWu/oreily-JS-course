@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <title> Functions: Returning a function from a function </title>
+  <meta charset="utf-8">
+  <style>
+    html, body, div#container {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+    }
+    div#container1, div#container2 {
+        position: relative;
+        height: 300px;
+        border: 1px solid black;
+    }
+    .red {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        background-color: red;
+    }
+    .blue {
+        position: absolute;
+        width: 175px;
+        height: 175px;
+        background-color: lightblue;
+    }
+  </style>
+  <script>
+    window.onload = init;
+    function init () {
+            addDivTo("container1")("red");
+            addDivTo("container2")("blue");
+    }
+    // your code here 
+    function addDivTo(id) {
+        return function (cssString) {
+            var div = document.createElement("div");
+            var el = document.getElementById(id);
+            el.appendChild(div);
+            div.style.left = Math.floor(Math.random() * (el.offsetWidth - 175)) + "px";
+            div.style.top = Math.floor(Math.random() * (el.offsetHeight - 175)) + "px"
+            div.className = cssString;
+            return div;
+        }
+    }
+  </script>
+</head>
+<body>
+    <div id="container1"></div>
+    <div id="container2"></div>
+</body>
+</html> 

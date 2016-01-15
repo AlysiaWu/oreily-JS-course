@@ -1,0 +1,99 @@
+<!doctype html>	
+<html>
+<head>
+	<title>Shape with Prototype and Inheritance</title>
+	<meta charset = "utf-8">
+	<style type="text/css">
+		 html, body, div#container {
+		 	width: 100%;
+		 	height:100%;
+		 	margin:0px;
+		 	padding:0px;
+		 }
+		 div#container {
+	        position: relative;
+	    }
+	    .shape {
+	        position: absolute;
+	        text-align: center;
+	    }
+	    .shape span {
+	        position: relative;
+	        top: 44%;
+	    }
+	    .square {
+	        background-color: lightblue;
+	    }
+	    .circle {
+	        background-color: goldenrod;
+	        border-radius: 50%;
+	    }
+	</style>
+	<script type="text/javascript">
+	function Circle(name, radius) {
+		this.name = name;
+		this.radius = radius; 	
+	}
+		Circle.prototype.getCircumference = function() {
+			return this.radiu*Math.PI*2;
+		};
+		Circle.prototype.getName = function() {
+			return this.name;
+		};
+
+
+	function Square(name, size) {
+		this.name = name; 
+		this.size = size;	
+	} 
+		Square.prototype.getArea = function() {
+			return this.size * this.size;
+		};
+		Square.prototype.getName = function() {
+			return this.name;
+		}
+
+	var circle1 = new Circle("circle1", 100);
+	var circle2 = new Circle("circle2", 200);
+	var square = new Square("my sqaure", 150);
+
+	window.onload = function() {
+		addShapeToPage(circle1);
+		addShapeToPage(circle2);
+		addShapeToPage(square);
+	};
+
+	function addShapeToPage(shape) {
+		 var container = document.getElementById("container");
+		 var div = document.createElement("div");
+		 var width = 0;
+		 var classes = "shape ";
+		 if (shape instanceof Circle) {
+		 	classes += "circle";
+		 	width = shape.radius;
+		 } else if (shape instanceof Square) {
+		 	classes += "square";
+		 	width = shape.size;
+		 }
+		 div.setAttribute("class", classes);
+		 div.style.left = Math.floor(Math.random()*(container.offsetWidth - 175)) + "px";
+		 div.style.top = Math.floor(Math.random()*(container.offsetWidth - 175)) + "px";
+		 div.style.width = width + "px";
+		 div.style.height = width + "px";
+
+		 var span = document.createElement("span");
+		 span.innerHTML = shape.getName();
+		 span.style.visibility = "hidden";
+		 div.appendChild(span);
+
+		 div.onmouseover = function() {
+		 	this.firstElementChild.style.visibility = "visible";
+		 };
+		 container.appendChild(div);
+	}
+	</script>
+</head>
+<body>
+<div id = "container"></div>
+</body>
+</html>

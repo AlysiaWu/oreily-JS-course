@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+  <title> Object Prototypes Project : Books, 1 </title>
+  <meta charset="utf-8">
+  <style>
+    .mystery {
+      background-color: rosybrown;
+    }
+    .biography {
+      background-color: mistyrose;
+    }
+  </style>
+  <script>  
+    // your code here for the Book() constructor
+    function Book(genre, title, author, published, hasMovie){
+      this.genre = genre; 
+      this.title = title; 
+      this.author = author;
+      this.published = published;
+      this.hasMovie = hasMovie;
+   
+    }
+    Book.prototype.display = function() {
+        console.log (this.genre, this.title, this.author, this.published, this.hasMovie);
+      }      
+    Book.prototype.toString = function(){
+        var bookInfo = "";
+        var hasMovieVerb = "have not";
+        if (this.hasMovie) {
+          hasMovieVerb = "has";
+          }
+        bookInfo += "The book" + this.title + "'s genre is" + this.genre + ", and it's author is "+ this.author+ " , was published at year "+ this.published + ", and " + hasMovieVerb + "been made into a movie";
+        return bookInfo;
+      }
+
+    window.onload = function() {
+        var books = [];
+        book1 = new Book("mystery", "Harry Potter", "J K Rolling", "1998", "true");
+        book2 = new Book("biography", "Steve Jobs", "Walter Isaacson", "2011", "false");
+        books.push(book1);
+        books.push(book2);
+        for (var i = 0; i < books.length; i++) {
+          books[i].toString();
+          addToPage(books[i]);
+        }
+    };
+
+    function addToPage(book) {
+        var booksList = document.getElementById("books");
+        var bookItem = document.createElement("li");
+        function setCss(genre) {
+           bookItem.setAttribute("class", genre); 
+        }
+        setCss(book.genre);
+        bookItem.innerHTML = book.toString();
+        booksList.appendChild(bookItem);    
+    }  
+  </script>
+</head>
+<body>
+<ul id="books">
+</ul>
+</body>
+</html> 

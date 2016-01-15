@@ -1,0 +1,57 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+ <title>Movie Objects</title>
+ <meta charset="utf-8">
+ <script>
+
+ var random = 1;
+
+function Movie(title, year, genre, rating, showtimes) {
+	this.title = title;
+	this.year = year;
+	this.genre = genre;
+	this.rating = rating;
+	this.showtimes = showtimes;
+}
+
+var allMovies = []
+allMovies.push(new Movie("star war", 1999, "thriller", 3, ["1:00pm", "2:00pm", "6:00pm"]));
+allMovies.push(new Movie("Harry Porter", 2005, "thriller", 4, ["4:00pm", "6:00pm", "8:00pm"]));
+allMovies.push(new Movie("Matrix", 1998, "thriller", 5, ["7:00pm", "8:00pm", "9:00pm"]))
+
+
+function showMovies(id) {
+	var random = 3;
+
+	console.log(id)
+	var movieInfo = "";
+	for (var i = 0 ; i < allMovies.length; i++) {	
+		movieInfo += "Movie title: " + allMovies[i].title + "<br>";
+		movieInfo += "Movie year: " + allMovies[i].year + "<br>";
+		movieInfo += "Movie shotimes: ";
+		for (var j = 0; j < allMovies[i].showtimes.length; j++){
+			movieInfo += allMovies[i].showtimes[j]+ " ";
+		}
+		movieInfo += "<br><br>"
+	}
+
+	// this.random = 4;
+	// random = 3;
+	
+
+	document.getElementById(id).innerHTML = movieInfo;
+}
+ </script>
+</head>
+<body>
+
+<div id="movies">
+</div> 
+
+<script>
+	showMovies("movies")
+</script>
+</body>
+</html> 

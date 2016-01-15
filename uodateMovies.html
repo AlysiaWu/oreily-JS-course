@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <title>Movie Objects and Methods</title>
+ <meta charset="utf-8">
+ <script>
+ window.onload = init;
+ 
+ function Movie(title, year, genre, rating, showtimes) {
+  this.title = title;
+  this.year = year;
+  this.genre = genre;
+  this.rating = rating;
+  this.showtimes = showtimes;
+  // update the rating with new rating
+  this.updateRating = function(newRating) {
+  	this.rating = newRating;
+  }
+ }
+
+ function init() {
+ 	// initiate a movie object
+ 	var starWar = new Movie("star war", 1999, "thriller", 3, ["1:00pm", "2:00pm", "6:00pm"]);
+ 	// update the rating
+ 	starWar.updateRating(5);
+	function showMovies() {		
+		var movieInfo = "Movie title: " + starWar.title + "<br>";
+		movieInfo += "Movie rating: " + starWar.rating + "<br>";	
+		document.getElementById("movies").innerHTML = movieInfo;
+	}
+	showMovies();
+}   
+ </script>
+</head>
+<body>
+ <div id="movies">
+ </div> 
+</body>
+</html> 

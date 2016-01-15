@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript">
+    function makeObject() {
+        return {
+            x: 3,
+            name: "my awesome object",
+            toString: function() {
+                return "This object is " + this.name + " and x is: " + this.x;
+            }
+        };
+    }
+    var myObject1 = makeObject();
+    console.log(myObject1.toString());
+
+    function MakeObject() {
+        this.x = 3;
+        this.name = "my awesome object";
+        this.toString = function() {
+            return "This object is " + this.name + " and x is: " + this.x;
+        };  
+    }
+    var myObject2 = new MakeObject(); 
+    console.log(myObject2.toString());
+    </script>
+</head>
+<body>
+
+</body>
+</html>
+
+
+  

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://students.oreillyschool.com/student/umail.php -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Messages</title>
+</head>
+<body class="umail">	
+	<div style="margin-top: 5px; margin-bottom:5px;">    <script language="JavaScript">
+    function changeFolder()
+    {
+        var form = document.getElementById("f");
+        form.method = "get"; 
+        form.submit();
+    }
+
+    function moveMessages()
+    {
+        var form = document.getElementById("f");
+        form.method = "post"; 
+
+        var ddlMove = document.getElementById("ddlMove");
+        var dest = ddlMove.options[ddlMove.selectedIndex].value;
+        
+        if(dest == 'DELETE'){
+            if(confirm("This will permanately DELETE the checked items.\nNO undo is avaliable.")){
+                form.submit();
+            }
+        } else if (dest == "NEW"){
+            theNewfolder = prompt("Name of new folder, 30 characters max:",'newfolder');
+            if(theNewfolder == "newfolder"|| theNewfolder.length > 30 || theNewfolder== "Inbox" || theNewfolder == "DELETE"){
+                alert("You have given an invalid name.");
+            } else if (theNewfolder != null) {
+                document.getElementById("newFolder").value = theNewfolder;
+                form.submit();
+            }
+        } else if (dest != ""){
+            document.getElementById("newFolder").value = dest;
+            form.submit();
+        }
+
+    }
+    </script>
+<form id="f" method="get">
+
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+    <tbody><tr>
+        <td align="left"><select name="ddlFolder" id="ddlFolder" onchange="changeFolder();">
+            <option value="Inbox" selected="">Inbox</option>
+                    </select> <a class="umailA" href="https://students.oreillyschool.com/student/umail.php?ddlFolder=Inbox&amp;umail=new">New Message</a>
+        <a class="umailA" href="https://students.oreillyschool.com/student/umail.php?ddlFolder=Inbox&amp;umail=inbox">Refresh</a>        </td>
+        <td align="right">Move Checked to: <select name="ddlMove" id="ddlMove">
+            <option value="" selected="">--Choose--</option>
+                        <option value="Trash">Trash</option>
+            <option value="NEW">[NEW FOLDER]</option>
+        </select><input type="button" value="Move" onclick="moveMessages();"></td>
+    </tr>
+</tbody></table>
+            <div style="text-align: center">Inbox - 5 messages</div>
+<hr>
+<table width="100%" border="0" cellspacing="0" cellpadding="2">
+    <thead>
+        <tr>
+            <th></th>
+            <th>From</th>
+            <th>Date</th>
+            <th>Subject</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr class="umailUnread">
+            <td><input type="checkbox" name="nano1466937"></td>
+            <td>Bryan B.</td>
+            <td> 19-Jun-15 08:22:14 PM CST</td>
+            <td><a class="umailA" href="https://students.oreillyschool.com/student/umail.php?ddlFolder=Inbox&amp;umail=read&amp;message_id=1466937">Domain change for O'Reilly School of Technology.</a></td>
+        </tr>
+                <tr class="umailUnread">
+            <td><input type="checkbox" name="nano1441677"></td>
+            <td>John B.</td>
+            <td> 31-Mar-15 02:40:52 PM CST</td>
+            <td><a class="umailA" href="https://students.oreillyschool.com/student/umail.php?ddlFolder=Inbox&amp;umail=read&amp;message_id=1441677">Getting back to your OST course - JavaScript: An Introduction [CASE-9865147]</a></td>
+        </tr>
+                <tr class="umailUnread">
+            <td><input type="checkbox" name="nano1434712"></td>
+            <td>John B.</td>
+            <td> 16-Mar-15 02:45:23 PM CST</td>
+            <td><a class="umailA" href="https://students.oreillyschool.com/student/umail.php?ddlFolder=Inbox&amp;umail=read&amp;message_id=1434712">Getting back to your OST course - Modern JavaScript [CASE-9860806]</a></td>
+        </tr>
+                <tr class="umailUnread">
+            <td><input type="checkbox" name="nano1422757"></td>
+            <td>John B.</td>
+            <td> 20-Feb-15 12:12:43 PM CST</td>
+            <td><a class="umailA" href="https://students.oreillyschool.com/student/umail.php?ddlFolder=Inbox&amp;umail=read&amp;message_id=1422757">Getting back to your OST course - Modern JavaScript [CASE-9853696]</a></td>
+        </tr>
+                <tr class="umailUnread">
+            <td><input type="checkbox" name="nano1415758"></td>
+            <td>John B.</td>
+            <td> 6-Feb-15 11:38:01 AM CST</td>
+            <td><a class="umailA" href="https://students.oreillyschool.com/student/umail.php?ddlFolder=Inbox&amp;umail=read&amp;message_id=1415758">Getting back to your OST course - Modern JavaScript [CASE-9849526]</a></td>
+        </tr>
+            </tbody>
+</table>
+     <input type="hidden" name="newFolder" id="newFolder"></form>
+
+    </div></body></html>

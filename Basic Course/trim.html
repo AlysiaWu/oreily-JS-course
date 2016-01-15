@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <title> Advanced JavaScript Project: trim() </title>
+  <meta charset="utf-8">
+  <script>
+    // your code here
+ function trim(str) {
+ 	if (str != null && typeof str == "string") {
+ 		str = str.toString();
+    var begin = 0;
+    var end = str.length - 1;
+    while (begin <= end && str.charCodeAt(begin) < 33) { ++begin; }
+    while (end > begin && str.charCodeAt(end) < 33) { --end; }
+    return str.substr(begin, end - begin + 1);
+} else {
+	return "";
+}
+    
+}
+
+console.log (trim("  I'm funny    "));
+console.log (trim("I'm funny"));
+console.log (trim(""));
+console.log (trim(null));
+console.log (trim(3));
+console.log (trim([1,2]));
+  </script>
+</head>
+<body>
+</body>
+</html>

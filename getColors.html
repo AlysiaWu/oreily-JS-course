@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <title> Favorite Colors </title>
+ <meta charset="utf-8">
+ <script>
+ // your code here
+ window.onload = init;
+ function init () {
+ 	var button = document.getElementById("submitButton");
+ 	// triger the goCliked function when the button is clicked
+ 	button.onclick = goClicked;
+ }
+
+ function goClicked() {
+	 for (var i = 0; i < document.getElementsByName("color").length; i++) {
+	 	// to check which button is clicked
+		if (document.getElementsByName("color")[i].checked) {
+			// show the value in the results div
+			document.getElementById('results').innerHTML = document.getElementsByName("color")[i].value;
+			break;
+		}
+	}		
+ }
+ </script>
+ </head>
+<body>
+ <h1>Color Chooser</h1>
+ <form id="theForm">
+ <p>Choose your favorite color: </p>
+ <input type="radio" id="blue" name="color" value="blue">
+ <label for="blue">Blue</label>
+ <input type="radio" id="red" name="color" value="red">
+ <label for="red">Red</label>
+ <input type="radio" id="green" name="color" value="green">
+ <label for="green">green</label>
+ <br><br>
+ <input type="button" id="submitButton" value="Go!"><br>
+ </form> 
+ <h1>Results</h1> 
+ <div id="results">
+ </div>
+</body>
+</html>

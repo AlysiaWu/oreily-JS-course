@@ -1,0 +1,28 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+function Color(r, g, b) {
+    var colorString = "";
+    if ((r >= 0 && r <= 255)  &&
+        (g >= 0  && g <= 255)  &&
+        (b >= 0  && b <= 255))
+    {
+        colorString = "rgb(" + r + ", " + g + ", " + b + ")";
+    }
+
+    this.getColorString = function() {
+    	// console.log(colorString);
+        return colorString;
+    }
+}
+
+var color = new Color(12, 14, 158); 
+
+// color.colorString = "rgb(55, 18, 242)";  
+
+</script>
+</body>
+</html>

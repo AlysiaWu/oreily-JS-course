@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+  <title> Object Prototypes Project : Books, 2 </title>
+  <meta charset="utf-8">
+  <style>
+    .mystery {
+      background-color: rosybrown;
+    }
+    .biography {
+      background-color: mistyrose;
+    }
+  </style>
+  <script>
+  
+    // your code here for the Book() constructor
+    function MysteryBook(title, author, published, hasMovie) {
+      this.genre = "mystery"; 
+      this.title = title; 
+      this.author = author;
+      this.published = published;
+      this.hasMovie = hasMovie;  
+    }
+
+    MysteryBook.prototype.display = function() {
+        console.log ("mystery", this.title, this.author, this.published, this.hasMovie);
+      }  
+
+    MysteryBook.prototype.toString = function(){
+        var bookInfo = "";
+        var hasMovieVerb = "have not";
+        if (this.hasMovie) {
+          hasMovieVerb = "has";
+          }
+        bookInfo += "The book" + this.title + "'s genre is mystery, and it's author is "+ this.author+ " , was published at year "+ this.published + ", and " + hasMovieVerb + "been made into a movie";
+        return bookInfo;
+      }
+
+    function BiologyBook(title, author, published, hasMovie) {
+      this.genre = "biography"; 
+      this.title = title; 
+      this.author = author;
+      this.published = published;
+      this.hasMovie = hasMovie;  
+    }
+
+    BiologyBook.prototype.display = function() {
+        console.log ("biography", this.title, this.author, this.published, this.hasMovie);
+      }  
+          
+    BiologyBook.prototype.toString = function(){
+        var bookInfo = "";
+        var hasMovieVerb = "have not";
+        if (this.hasMovie) {
+          hasMovieVerb = "has";
+          }
+        bookInfo += "The book" + this.title + "'s genre is biography, and it's author is "+ this.author+ " , was published at year "+ this.published + ", and " + hasMovieVerb + "been made into a movie";
+        return bookInfo;
+      }
+
+    window.onload = function() {
+        var books = [ ];
+        // your code here to create the books and call addToPage()
+        book1 = new MysteryBook("Harry Potter", "J K Rolling", "1998", "true");
+        book2 = new BiologyBook("Steve Jobs", "Walter Isaacson", "2011", "false");
+        books.push(book1);
+        books.push(book2);
+        for (var i = 0; i < books.length; i++) {
+          books[i].toString();
+          addToPage(books[i]);
+        }
+    };
+
+    function addToPage(book) {
+        var booksList = document.getElementById("books");
+        var bookItem = document.createElement("li");
+
+        // your code here to figure out how which class to add to the book
+        // you can use: bookItem.setAttribute("class", "mystery") to add the mystery class
+        // and: bookItem.setAttribute("class", "biography") to add the biography class
+        function setCss(genre) {
+           bookItem.setAttribute("class", genre); 
+        }
+        setCss(book.genre);      
+        bookItem.innerHTML = book.toString();
+        booksList.appendChild(bookItem);
+    }  
+  </script>
+</head>
+<body>
+<ul id="books">
+</ul>
+</body>
+</html>        

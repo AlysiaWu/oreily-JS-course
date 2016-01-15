@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <title> Quiz </title>
+ <meta charset="utf-8">
+ <style>
+ .basic {
+  font-family: Helvetica, Verdana, sans-serif;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border: 1px solid black;
+ }
+ .red {
+  background-color: red;
+  border: 2px dotted black;
+ }
+ </style>
+ <script>
+ window.onload = init;
+ 
+ function init() {
+  div = document.querySelector(".basic");
+  div.onclick = addRed;
+ }
+ 
+ function addRed() {
+  // your code here to add the "red" class to the div
+  div.className += " red";
+
+ }
+ </script>
+</head>
+<body>
+ <div class="basic">
+  Click to make me red!
+ </div>  
+</body>
+</html>

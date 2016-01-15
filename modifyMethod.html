@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <title> Make an object's methods chainable </title>
+  <meta charset="utf-8">
+  <script>
+
+function modifyFunction(f) {
+    console.log("gg");
+    return function() {
+        console.log("ll");
+        var returnValue = f.apply(this, arguments);
+        console.log(f);
+        if (returnValue == undefined) {
+            console.log("haha");
+            console.log(this[o]);
+            return this[o];
+        } else {
+            return returnValue;
+        }
+    }();
+}
+
+
+function modifyMethod(o, m) {
+    // your code here
+    // var method = eval(m);
+    // console.log(method);
+    if(o.hasOwnProperty(m) && o[m] instanceof Function) {
+        console.log(o);
+        console.log(m);
+        console.log("o[m]", o[m]);
+        o[m]=modifyFunction(o[m]);       
+    }
+   
+};   
+
+var o = {
+    num: 0,
+    add: function(x) {
+        this.num += x;
+    // return this;
+    },
+    sub: function(x) {
+        this.num -= x;
+    // return this;
+  
+    }
+};
+// modifyFunction(o.add);
+// We can't chain object o's method because they don't return "this"
+//o.add(4).sub(2); // fail - the methods aren't chainable yet!
+
+// Make the add method chainable.
+modifyMethod(o, "add");
+// o.add(2);
+// Now we can chain the add methods
+o.add(2).add(4);
+console.log(o.num); // o.num = 6
+
+// Now make the sub method chainable
+modifyMethod(o, "sub");
+
+// Now we can chain both the sub and add methods
+o.sub(1).add(3).sub(5);
+console.log(o.num);  // o.num = 3
+
+  </script>
+</head>
+<body>
+</body>
+</html>        

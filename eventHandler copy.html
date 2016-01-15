@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <title> Add and delete items Objective </title>
+ <meta charset="utf-8">
+ <style>
+ p {
+  font-style: italic;
+ }
+ li:hover {
+  cursor: pointer;
+ }
+ </style>
+ <script>
+window.onload = init;
+function init () {
+	document.getElementById("submitButton").addEventListener("click", showList);
+}
+function showList () {
+	var inputValue = document.getElementById("item").value;
+	var ul = document.getElementsByTagName("ul")[0];
+	var li = document.createElement("li");
+	
+	ul.appendChild(li);
+	li.innerHTML = inputValue;
+	li.addEventListener("click", function(e) {
+		ul.removeChild(li);
+	});
+	fave = new faves('something', 'else')
+	fave.handleClick()
+}
+function faves(alskfj, aasdf) {
+	this.handleClick = function(){
+		console.log('something')
+	}
+}
+ </script>
+</head>
+<body>
+ <form>
+ <label for="item">Add an item: </label>
+  <input id="item" type="text" size="20"><br>
+ <input id="submitButton" type="button" value="Add!">
+ </form>
+ <ul>
+ </ul>
+ <p>
+ Click an item to remove it from the list.
+ </p> 
+</body>
+</html>

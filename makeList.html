@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <title> Make an HTML list </title>
+  <meta charset="utf-8">
+  <script>
+    function makeList(n1, n2, n3, n4) {
+      var ulString = "<ul>";
+       for(var i=0; i < arguments.length; i ++) {
+          ulString += "<li>";
+          ulString += arguments[i];
+          ulString += "</li>";
+       }
+       ulString += "</ul>";
+       return ulString;
+    }
+    
+    window.onload = function() {
+        var list = makeList("ul", "apples", "oranges", "pears");
+        var theListDiv = document.getElementById("theList");
+        theListDiv.innerHTML = list;
+
+    }
+  </script>
+</head>
+<body>
+  <div id="theList"></div>
+</body>
+</html> 

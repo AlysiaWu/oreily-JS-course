@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+  <title> Scope </title>
+  <meta charset="utf-8">
+  <style>
+    html {
+        height: 100%;
+    }
+    body {
+        height: 100%;
+        margin: 0px;
+        font-family: Helvetica, sans-serif;
+    }
+    div#container {
+        margin: auto;
+        width: 300px;
+    }
+    form {
+        margin-top: 20%;
+    }
+    form input[type="text"] {
+        font-size: 120%;
+        text-align: center;
+    }
+    form input[type="button"] {
+        background-color: lightblue;
+        font-size: 110%;
+    }
+  </style>
+  <script>
+function addNote(event) {
+
+    var validChords = {
+        C: "CEG",
+        F: "FAC",
+        G: "GBD"
+    };
+
+    var note = event.target.value;
+    // your code here
+    document.getElementById("notesDisplay").value+=note;
+    count +=1;
+    checkChord();
+      function checkChord() {       
+        if (count == 3) {
+            var chord = document.getElementById("notesDisplay").value;
+            for (key in validChords) {
+                if (chord == validChords[key]) {
+                    var msg = document.getElementById("message").innerHTML;
+                    msg += "you have entered a major triad chord!";
+                    document.getElementById("message").innerHTML=msg;
+                    document.getElementById("notesDisplay").value="";
+
+                }
+            }
+        }
+    }
+
+}              
+             
+window.onload = function() {
+    var notes = ["C", "D", "E", "F", "G", "A", "B"];
+    
+    var cButton = document.getElementById("c");
+    cButton.onclick = addNote;
+    var dButton = document.getElementById("d");
+    dButton.onclick = addNote;
+    var eButton = document.getElementById("e");
+    eButton.onclick = addNote;
+    var fButton = document.getElementById("f");
+    fButton.onclick = addNote;
+    var gButton = document.getElementById("g");
+    gButton.onclick = addNote;
+    var aButton = document.getElementById("a");
+    aButton.onclick = addNote;
+    var bButton = document.getElementById("b");
+    bButton.onclick = addNote;
+    
+    // your code here
+    count = 0; 
+
+}  
+
+  </script>
+</head>
+<body>
+<div id="container">
+<form>
+<p id="message">Enter a major triad chord:</p>
+<p>
+    <input id="notesDisplay" type="text" size="21">
+</p>
+<p>
+    <input id="c" type="button" value="C">
+    <input id="d" type="button" value="D">
+    <input id="e" type="button" value="E">
+    <input id="f" type="button" value="F">
+    <input id="g" type="button" value="G">
+    <input id="a" type="button" value="A">
+    <input id="b" type="button" value="B">
+</p>
+</form>
+</div>
+</body>
+</html>         

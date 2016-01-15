@@ -1,0 +1,6 @@
+var todoObject = { 
+    task: "Get Milk", 
+    who: "Scott",
+    dueDate: "today",
+    done: false 
+};

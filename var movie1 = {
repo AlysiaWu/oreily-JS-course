@@ -1,0 +1,23 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+ <title>Movie Objects</title>
+ <meta charset="utf-8">
+ <script>
+
+ // your code here.
+   var movie1 = {
+	title: "movie1",
+	year: 1999,
+	genre: "thriller",
+	rating: 3,
+	showtimes: ["1:00pm", "2:00pm", "6:00pm"]
+}
+ </script>
+</head>
+<body>
+ <div id="movies">
+ </div> 
+</body>
+</html> 

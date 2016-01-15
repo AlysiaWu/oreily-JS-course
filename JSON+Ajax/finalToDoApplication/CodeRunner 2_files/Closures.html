@@ -1,0 +1,894 @@
+
+<!-- saved from url=(0081)https://students.oreillyschool.com/coursecontent/advancedjavascript/Closures.html -->
+<html><!-- Copyright (c) 1998-2014 O'Reilly Media, Inc.
+			This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
+			See http://creativecommons.org/licenses/by-sa/3.0/legalcode for more information.
+            --><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" type="text/css" href="Lab.css"><script async="" src="analytics.js"></script><script type="text/javascript" src="Lab.js"></script><script language="javascript"></script><title>Closures</title></head><body id="body" style="font-size: 15px;"><a name="top"></a><div class="title">Closures</div><div class="resize"><a href="https://students.oreillyschool.com/coursecontent/advancedjavascript/Closures.html#top" onclick="changeSize(&#39;smaller&#39;);" class="aS" title="Keep clicking to make fonts smaller">A</a><a href="https://students.oreillyschool.com/coursecontent/advancedjavascript/Closures.html#top" onclick="changeSize(&#39;larger&#39;);" class="aL" title="Keep clikcing to make fonts larger">A</a><a href="https://students.oreillyschool.com/coursecontent/advancedjavascript/Closures.html#top" onclick="lv()" class="lv" title="Adjust Page for High Contrast">HC</a><div id="fh"><p>Click on <span class="aS">A</span> to make all fonts on the page smaller.</p><p>Click on <span class="aL">A</span> to make all fonts on the page larger.</p><p>Click on <span class="lv">HC</span> to toggle high contrast mode. When you move your mouse over 
+                 some bold words in high contrast mode, related words are automatically highlighted. Text is shown
+                 in black and white. 
+             </p></div></div><hr>
+    
+    <div class="goalTitle">Lesson Objectives</div><div class="goals">
+        When you complete this lesson, you will be able to:
+        <ul><li>create and use a closure to "remember" values.</li><li>explain how a closure is created.</li><li>use a closure to store a value for a click handler.</li></ul>
+    </div><hr>
+    
+ <a name="h_01"></a><div class="heading">Closures</div><div class="headingText">
+     
+     <p>In the previous lesson, you learned about encapsulation and information hiding. All of that functionality is possible because of a 
+         feature of JavaScript: <i>closures</i>. Closures appear to be relatively straightforward, yet they 
+         can be really difficult to wrap your head around. 
+         This entire lesson is devoted to closures: what they are, how they work, 
+         and when to use them.
+     </p>
+     
+  <a name="s_01"></a><div id="s_01"><div class="subheading">Making a Closure</div><div class="subheadingText">
+         
+      <p>We've mentioned closures before, now it's time to uncover the mystery that surrounds them. We'll start with some 
+          basic examples and then come back to a couple of examples from the previous lessons to see how we've used closures 
+          in the past.</p>
+         
+      <p>Create a new file add this code:</p>
+      
+<div class="listingBox"><div class="listingTitle">CODE TO TYPE:</div><div class="listing"><pre><ins>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Closures &lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;script&gt; 
+        
+    function makeAdder(x, y) {
+        var adder = function() {
+            return x + y;
+        };
+
+        return adder;
+    }
+
+    var f = makeAdder(2, 3);
+    var result = f();
+    console.log("Result is: " + result);
+    
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;</ins>         
+</pre></div></div>
+         
+      <p><img src="save.png"> Save this in your <b>/AdvJS</b> folder as <b>closure.html</b>, and <img src="preview(1).png">.
+          Open the console (reload the file if necessary) and you'll see, "Result is: 5." </p>
+         
+      <p>In this code we've got a function that returns another function. You may remember from an 
+          <a href="https://students.oreillyschool.com/coursecontent/advancedjavascript/Functions.html#returning_a_function_from_a_function" target="_blank">earlier lesson</a>  
+          that functions are <i>first-class values</i>; that is, you can return a function from a function, just like you can return values 
+          like 3 or "string." The function <b>makeAdder()</b> returns a function, <b>adder()</b>, that adds two values and 
+          returns the result. We've named the function <b>adder()</b> inside <b>makeAdder()</b>, but when we return it from 
+          <b>makeAdder()</b>, we name it <b>f()</b>. So, in order to call the returned function, we use <b>f()</b>. (We could use the same 
+          name for the function in both places, but for this lesson we want to have a way to identify the function when it's <i>defined</i>, 
+          and the function when it's <i>called</i>.)</p>
+         
+      <p>The two values that we want to add together are passed to the <b>madeAdder()</b> function as arguments when we 
+          call it. The function <b>adder()</b> doesn't take any arguments. Instead, <b>adder()</b> adds together the two numbers passed into 
+          <b>makeAdder()</b>. So, how does this work? </p>
+         
+      <p>Local variables (including parameters of functions) disappear after the function within which they are defined is done 
+          executing. So, while the parameters <b>x</b> and <b>y</b> are defined when the function <b>adder()</b> is <i>created</i>, when we 
+          <i>call</i> it later, using the name <b>f()</b>, <b>x</b> and <b>y</b> are long gone. So how does calling <b>f()</b> return 
+          the (correct) value, 5? It's seems like <b>f()</b> somehow "remembers" the values of <b>x</b> and <b>y</b> which were defined when 
+          <b>f()</b> was created (as <b>adder()</b>). </p>
+         
+      <p>Well, that's exactly what happens. The function <b>f()</b> "remembers" the values of <b>x</b> and <b>y</b> through a closure. Let's 
+          step through the execution of this code to see the closure in the JavaScript console.</p>
+         
+      <p>First, open the file <b>closure.html</b> in the Chrome browser, and add a breakpoint to the line of code where we call 
+          <b>makeAdder()</b>:</p>
+         
+      <p></p><div class="c"><img src="Closure1.png" style="cursor: zoom-in;"></div><p></p>
+         
+      <p>Add a breakpoint, click the <b>Sources</b> tab, and then open <b>closure.html</b> (from the left pane). Click on the 
+          line number next to the line of code where you want to add the breakpoint (in our version, that's line number 16). The 
+          breakpoint appears under the <b>Breakpoints</b> section in the right pane. </p>
+          
+         
+      <p>Now, reload the page and click the <b>Step into</b> button twice. This is the third button from the left of the right pane, with a 
+          little arrow pointing down on top of a period:</p>
+             
+
+      <p></p><div class="c"><img src="Closure2.png" style="cursor: zoom-in;"></div><p></p>
+         
+      <p>We're now on the line where we return <b>adder()</b>. Look in the right pane under <b>Scope Variables</b>. The local 
+          variables that are defined inside <b>makeAdder()</b>, including the two parameters, <b>x</b> and <b>y</b>, as well as the 
+          <b>adder()</b> function. These are all local variables because they are defined within <b>makeAdder()</b>.</p>
+         
+      <p>Click <b>Step into</b> twice more; we're now stopped on the line where we call <b>f()</b> (we haven't executed this line yet). 
+          <b>f</b> is a global variable (if you open <b>Global</b> under Scope Variables in the right pane, you'll see it defined as a 
+          global variable, which is the global window object). </p>
+         
+      <p></p><div class="c"><img src="Closure3.png" style="cursor: zoom-in;"></div><p></p>
+         
+      <p>Click <b>Step into</b> once more, so that we call <b>f()</b> and stop just before we return the result of adding <b>x</b> and 
+          <b>y</b>:</p>
+         
+      <p></p><div class="c"><img src="Closure4.png" style="cursor: zoom-in;"></div><p></p>
+         
+      <p>Under Scope Variables, in Local, you see something called <b>Closure</b>. Inside that, you'll see two variables: <b>x</b> and 
+          <b>y</b>, with their values set correctly to 2 and 3—the arguments we passed into <b>makeAdder()</b> earlier. This is the 
+          closure, where <b>f()</b> gets its two values to add together.</p>
+          
+         
+      <p><b>Step into</b> twice again to execute the line of code, <b>return x + y</b>, and return from <b>f()</b>. The closure disappears:</p>
+         
+      <p></p><div class="c"><img src="Closure5.png" style="cursor: zoom-in;"></div><p></p>
+         
+      <p>Click <b>Resume script execution</b> to complete the script execution.</p>
+
+  </div></div>
+  <a name="s_02"></a><div id="s_02"><div class="subheading">What is a Closure?</div><div class="subheadingText">
+         
+      <p>Now you've <i>made</i> a closure, but what exactly <i>is</i> a closure? </p> 
+         
+      <p>To understand a closure, you need to remember how <i>scope</i> works. In the <a href="https://students.oreillyschool.com/coursecontent/advancedjavascript/Scope.html#scope_chains" target="_blank">earlier lesson on scope</a>, 
+           we talked about how the <i>scope chain</i> is created when you call functions.
+          The scope chain is a series of scope objects containing the values of the variables in a function's scope. For global functions 
+          (that is, functions defined at the top level), we have just two scope levels: the local scope (the scope within the function) and 
+          the global scope. When you call a function and refer to a variable, we get the value for that variable first by looking in the 
+          local scope and, if we can't find it there, we look in the global scope.</p>
+         
+      <p>Now, recall that when we call a nested (or "inner") function, we have three scope levels: the scope of the nested function, then the 
+          scope of the function containing the nested function, and finally the global scope. </p>
+         
+      <p>In our example, we created a nested function named <span class="darkgreen">adder()</span>: </p>
+      
+<div class="observeBox"><div class="observeTitle">OBSERVE:</div><div class="observe"><pre><span class="darkred">function makeAdder(x, y) {
+    <span class="darkgreen">var adder = function() {
+        return x + y;
+    };</span>
+
+    <span class="darkblue">return adder</span>;
+}</span>
+
+var f = makeAdder(2, 3);
+var result = f();
+console.log("Result is: " + result);             
+</pre></div></div>
+         
+      <p>Inside <span class="darkgreen">adder()</span>, we refer to two variables, <b>x</b> and <b>y</b>. These variables are defined in the 
+          <span class="darkred">makeAdder()</span> function, so they are <i>not</i> local to <b>adder()</b>. If we just called 
+          <span class="darkgreen">adder()</span> from inside <span class="darkred">makeAdder()</span> (for example, if we changed the line 
+          <span class="darkblue">return adder</span> to <b>adder()</b>), you'd see that in order to figure out the values of the variables <b>x</b> 
+          and <b>y</b>, we'd use the scope chain. We'd look for those values in the scope of <span class="darkgreen">adder()</span> first, but we wouldn't 
+          find them there so we'd look for those values in the scope of <span class="darkred">makeAdder()</span>, and we'd find them there.</p>
+         
+      <p>However, we're not calling <b>adder()</b> from inside <b>makeAdder()</b>; we're <i>returning</i> <b>adder()</b> 
+          from <b>makeAdder()</b>. 
+          When we return the <b>adder()</b> function, it comes along with a scope object: an object that contains the variables that are in 
+          the scope of <b>adder()</b> when <b>adder()</b> is created. That includes the two variables <b>x</b> and <b>y</b>. This object is 
+          essentially the same as the <i>scope object</i> of <b>makeAdder()</b> that was created for the scope chain. It's the 
+          <i>context</i> within which <b>adder()</b> is created. </p>
+         
+      <p>This object is the closure. A closure is an object that captures the context in place when a function is created. The closure 
+          "remembers" all the variables that are in scope at the time the inner function is created. If we just call the inner function right 
+          away, the closure gets thrown away when the containing function ends, but if we <i>return</i> that inner function, the closure 
+          comes along with it: </p>
+         
+      <p></p><div class="c"><img src="ClosureDiagram1.jpg" style="cursor: zoom-in;"></div><p></p>
+         
+      <p>When we <i>call</i> that function later and look for the values of the variables it refers to, if we don't find those values in 
+          the function itself (that is, they aren't local variables), we look in the closure: </p>
+         
+      <p></p><div class="c"><img src="ClosureDiagram2.jpg" style="cursor: zoom-in;"></div><p></p>
+         
+      <p>So the closure becomes part of the scope chain when you call a function.</p>
+         
+      <p>The closure looks a lot like the scope object that's added to the chain when we call a nested function from its 
+          containing function (for example, if we called <b>adder()</b> from inside <b>makeAdder()</b>). Although here, we use the closure 
+          instead of the scope object because we're calling the returned function (<b>f()</b>) <i>after</i> the containing function has 
+          returned, so we can't use the normal scope chain to find the values of the variables in <b>f()</b>; we have to use the closure 
+          instead. We've "captured" the scope, or context, within which the nested function was created in the closure so we can refer to 
+          the variables long after the containing function has completed execution. </p>
+     
+  </div></div>
+  <a name="s_03"></a><div id="s_03"><div class="subheading">Playing with Closures</div><div class="subheadingText">
+  
+      <p>Let's play with closures a bit so you can see how they work. First, let's prove that only variables that are actually 
+          referenced by an inner function are added to a closure. Modify <b>closures.html</b> as shown:</p>
+      
+<div class="listingBox"><div class="listingTitle">CODE TO TYPE:</div><div class="listing"><pre>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Closures &lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;script&gt; 
+        
+    function makeAdder(x, y) {
+        <ins>var z = 10;</ins> 
+        var adder = function() {
+            return x + y;
+        };
+
+        return adder;
+    }
+
+    var f = makeAdder(2, 3);
+    var result = f();
+    console.log("Result is: " + result);
+    
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;        
+</pre></div></div>
+      
+      <p><img src="save.png"> and <img src="preview(1).png">. In the console, open the <b>Sources</b> tab, and look at 
+          <b>closure.html</b>. Clear the previous breakpoint and add a breakpoint to the line where we return the result of adding <b>x</b> 
+          and <b>y</b> (inside <b>adder()</b>), like this:</p>
+         
+      <p></p><div class="c"><img src="Closure6.png" style="cursor: zoom-in;"></div><p></p>
+         
+      <p>Reload the page. The execution will stop at the breakpoint, so you can inspect the closure. Notice that even though we've added a 
+          local variable <b>z</b> to <b>makeAdder()</b>, that variable is not included in the closure. Why? Because it's not referenced by 
+          <b>adder()</b>, so it's not needed in the closure.</p>
+         
+      <p>Next, let's prove that only non-local variables are added to a closure:</p>
+      
+<div class="listingBox"><div class="listingTitle">CODE TO TYPE:</div><div class="listing"><pre>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Closures &lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;script&gt; 
+        
+    function makeAdder(x, y) {
+        var z = 10;
+        var adder = function() {
+            <ins>var x = 10;</ins>
+            return x + y;
+        };
+
+        return adder;
+    }
+
+    var f = makeAdder(2, 3);
+    var result = f();
+    console.log("Result is: " + result);
+    
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;        
+</pre></div></div>
+         
+      <p><img src="save.png"> and <img src="preview(1).png"> preview. In the console, open the <b>Sources</b> tab, and 
+          look at 
+          <b>closure.html</b>:</p>
+         
+      <p></p><div class="c"><img src="Closure6b.png" style="cursor: zoom-in;"></div> <p></p>
+         
+      <p>Now, only <b>y</b> is in the closure. The local variable <b>x</b> <i>shadows</i> the parameter <b>x</b> in <b>makeAdder()</b>, so 
+          <b>x</b> is no longer needed in the closure—we'll always use the value of the local variable if we refer to <b>x</b> in 
+          <b>adder()</b>. Also, look at the console (click on the <b>Console</b> tab); the result is now 13 instead of 5.</p>
+         
+      <p>What do you think will happen if we refer to <b>z</b> in <b>adder()</b>?</p>
+      
+<div class="listingBox"><div class="listingTitle">CODE TO TYPE:</div><div class="listing"><pre>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Closures &lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;script&gt; 
+        
+    function makeAdder(x, y) {
+        var z = 10;
+        var adder = function() {
+            var x = 10;
+            return x + y <ins>+ z</ins>;
+        };
+
+        return adder;
+    }
+
+    var f = makeAdder(2, 3);
+    var result = f();
+    console.log("Result is: " + result);
+    
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;        
+</pre></div></div>
+         
+      <p><img src="save.png"> and <img src="preview(1).png">. In the console, open the <b>Sources</b> tab, and look at 
+          <b>closure.html</b>. Notice we're now adding <b>z</b> to <b>x</b> and <b>y</b>. Add a breakpoint to the line where we return the 
+          result of adding <b>x</b>, <b>y</b> and <b>z</b> (inside <b>adder()</b>), like this:</p>
+         
+      <p></p><div class="c"><img src="Closure6c.png" style="cursor: zoom-in;"></div><p></p>
+         
+      <p>Reload the page. When the execution stops, you'll see that <b>z</b> is now included in the closure, because it's referenced by 
+          <b>adder()</b>.</p>
+         
+      <p>What do you think will happen if you remove the declaration of <b>z</b>, but leave the reference to <b>z</b> in <b>adder()</b>? Try 
+          it and see!</p>
+     
+  </div></div>
+  <a name="s_04"></a><div id="s_04"><div class="subheading">Each Closure is Unique</div><div class="subheadingText">
+         
+      <p>Each time you call <b>makeAdder()</b>, you'll get a function back that adds two numbers together. Let's make another function, 
+          <b>g()</b>, that adds together the numbers 4 and 5:</p>
+      
+<div class="listingBox"><div class="listingTitle">CODE TO TYPE:</div><div class="listing"><pre>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Closures &lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;script&gt; 
+        
+    function makeAdder(x, y) {
+        <del>var z = 10;</del>
+        var adder = function() {
+            <del>var x = 10;</del>
+            return x + y<del> + z</del>;
+        };
+
+        return adder;
+    }
+
+    var f = makeAdder(2, 3);
+    var result = f();
+    console.log("Result is: " + result);
+    
+    <ins>var g = makeAdder(4, 5);
+    var anotherResult = g();
+    console.log("Another result is: " + anotherResult);</ins>
+    
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;        
+</pre></div></div>
+         
+      <p><img src="save.png"> and <img src="preview(1).png">. In the console, you'll see that the result of calling <b>g()</b> 
+          ("Another result") is 9. Now, open the <b>Sources</b> tab, and look at <b>closure.html</b>. Add a breakpoint at the 
+          line where we return the result from <b>adder()</b> (line 10 in our version), and reload the page. The first time the execution 
+          stops at the breakpoint, we're calling <b>f()</b>, so you'll see the values 2 and 3 for <b>x</b> and <b>y</b> in the closure. Click 
+          <b>Resume script execution</b> again. Now when execution stops at the breakpoint, we call <b>g()</b>, so you'll see the 
+          values 4 and 5 for <b>x</b> and <b>y</b> in the closure.</p>
+         
+      <p>In other words, <b>f()</b> and <b>g()</b> get separate closures containing different values for <b>x</b> and <b>y</b>. You can call 
+          <b>f()</b> again after calling <b>g()</b>, and you'll still get the right answer. When <b>f()</b> and <b>g()</b> are created, the values of <b>x</b> and <b>y</b> are 
+          different, 
+           so each function has a separate closure, each with different values for the
+          variables that are in it. Remember, a closure captures the context of a function when that function is <i>created</i>.</p>
+         
+      <p></p><div class="c"><img src="Closure8.png" style="cursor: zoom-in;"></div><p></p>
+     
+  </div></div>
+  <a name="s_05"></a><div id="s_05"><div class="subheading">Closures Might Not Always Act Like You Expect</div><div class="subheadingText">
+         
+      <p>Now, try this:</p>
+      
+<div class="listingBox"><div class="listingTitle">CODE TO TYPE:</div><div class="listing"><pre>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Closures &lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;script&gt; 
+        
+    function makeAdder(x, y) {
+        var adder = function() {
+            return x + y;
+        };
+        <ins>x = 10;</ins>
+        return adder;
+    }
+
+    var f = makeAdder(2, 3);
+    var result = f();
+    console.log("Result is: " + result);
+    
+    var g = makeAdder(4, 5);
+    var anotherResult = g();
+    console.log("Another result is: " + anotherResult);
+    
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;        
+</pre></div></div>
+         
+      <p><img src="save.png"> and <img src="preview(1).png">. Look at the result in the console. The result of calling 
+          <b>f()</b> is now 13, and the result of calling <b>g()</b> is now 15. If you still have the breakpoint at line 10, 
+          you'll see that the closure now contains the value 10 for <b>x</b> in both functions.
+         
+      That's because a closure is a <i>reference to an object</i>: an object that contains the values of the variables in the scope of the 
+          function associated with the closure. So, when we call <b>makeAdder()</b> the first time, we create 
+          the function <b>adder()</b> by defining it in <b>makeAdder()</b>. The closure is created, and <b>adder()</b> gets a reference to 
+          that closure object, which contains a property named <b>x</b> with the value 2 (the value we passed into <b>makeAdder()</b>).  
+          Before we return the <b>adder()</b> function value, we change the value of the property in the closure object associated with 
+          <b>adder()</b>. <b>adder()</b> still points to the same closure object, but we've <i>changed</i> the value in that closure object, 
+          so later, when we call <b>f()</b> (which is just another name for the <b>adder()</b> function we created when we called 
+          <b>makeAdder(2, 3)</b>), we look up the value of <b>x</b> and find 10 instead of 2:</p>
+         
+      <p></p><div class="c"><img src="ClosureDiagram3.jpg" style="cursor: zoom-in;"></div><p></p>
+         
+      <p>This is really important to understand, so look it over a couple of times. If you don't remember that 
+          the closure associated with a function is an object, and so what's stored in the function object as the closure is actually a 
+          <i>reference to an object</i>, you could run into problems. If you change that object <i>after</i> you've created the function, 
+          that function will use the 
+          <i>new</i> values in the object, not the original ones.</p>
+     
+  </div></div>
+  <a name="s_06"></a><div id="s_06"><div class="subheading">Closures for Methods</div><div class="subheadingText">
+   
+      <p>Closures work for methods (which are just functions in objects) too:</p>
+      
+<div class="listingBox"><div class="listingTitle">CODE TO TYPE:</div><div class="listing"><pre>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Closures &lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;script&gt; 
+        
+    function makeAdder(x, y) {
+        var adder = function() {
+            return x + y;
+        };
+        <del>x = 10;</del>
+        return adder;
+    }
+
+    var f = makeAdder(2, 3);
+    var result = f();
+    console.log("Result is: " + result);
+    
+    var g = makeAdder(4, 5);
+    var anotherResult = g();
+    console.log("Another result is: " + anotherResult);
+    
+    <ins>function makeObject(x, y) {
+        return {
+            z: 10,
+            adder: function() {
+                return x + y + this.z;
+            }
+        };
+    }
+
+    var o = makeObject(2, 3);
+    var result2 = o.adder();
+    console.log("Result in o is: " + result2);</ins>
+             
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;        
+</pre></div></div>
+      
+      <p><img src="save.png"> and <img src="preview(1).png">. In the console, you see that the value of <b>result2</b> is 15.</p>
+         
+      <p>Go ahead and experiment by setting a breakpoint at the return in the new <b>makeObject()</b> function (line 28 in our version). 
+          When you execute the code with the breakpoint in place, you'll see that when we call <b>o.adder()</b> the value of <b>this</b> is 
+          the object <b>o</b> (good!) and that object contains two properties: the method <b>adder()</b> and the property <b>z</b> 
+          that has a value
+          of 10. The closure contains the values 2 and 3 for <b>x</b> and <b>y</b>. We don't need the value  
+          of <b>this.z</b> in the closure, because we get that value from the object that contains method we're calling—that is, <b>o</b>.</p>
+         
+      <p></p><div class="c"><img src="Closure9.png" style="cursor: zoom-in;"></div><p></p>
+     
+  </div></div>
+  <a name="s_07"></a><div id="s_07"><div class="subheading">Using Closures</div><div class="subheadingText">
+         
+      <p>Now you know how closures work, so when are they useful. After all, it's not often that we create 
+          functions that return other functions in our everyday code. Let's look at a few examples of where closures come in handy.</p>
+         
+   <h5>Using Closures to Create Private Data</h5>
+         
+      <p>We'll start by creating a function that counts. Create a new file and add this code:</p>
+      
+<div class="listingBox"><div class="listingTitle">CODE TO TYPE:</div><div class="listing"><pre><ins>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Counter &lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;script&gt; 
+        
+    function makeCounter() {
+        var count = 0;
+        return function() {
+            count = count + 1;
+            return count;
+        };
+    }
+
+    var count = makeCounter();
+    console.log("Counter: " + count());
+    console.log("Counter: " + count());
+    console.log("Counter: " + count());
+    console.log("Counter: " + count());
+    console.log("Counter: " + count());
+    
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;</ins>         
+</pre></div></div>
+         
+      <p><img src="save.png"> Save this in your <b>/AdvJS</b> folder as <b>counter.html</b>, and <img src="preview(1).png">.
+          Open the console (and reload the file if necessary) and you see: </p>
+      
+<div class="observeBox"><div class="observeTitle">OBSERVE:</div><div class="observe"><pre>Counter: 1 
+Counter: 2 
+Counter: 3 
+Counter: 4 
+Counter: 5</pre></div></div>
+      
+      <p>This is kind of cool because we've used a closure to encapsulate the counter variable, and the process of counting. In other words, 
+          the counter variable, <b>count</b>, is totally private, and the only way to increment it is to call the function <b>count()</b>. 
+          The <b>count</b> variable exists only within the closure for the function <b>count()</b>, so no one can come along and change the 
+          value of the counter by doing anything other than calling <b>count()</b>.</p>
+         
+   <h5>Closures as Click Handlers</h5>
+         
+      <p>So far we've looked at examples that return a function from a function, and seen how the function that is returned comes 
+          along with a closure object. Another way to use a function after the context within which the function is created has gone away is 
+          to assign a function to an object property; for instance, like when we assign handlers for events to a property in an object, like a 
+          &lt;div&gt;. Create a new file to look at a common use of closures—and a common mistake that goes along with it:</p>
+      
+<div class="listingBox"><div class="listingTitle">CODE TO TYPE:</div><div class="listing"><pre><ins>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Closures for divs &lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;style&gt;
+    div {
+        position: relative;
+        margin: 10px;
+        background-color: red;
+        border: 1px solid black;
+        width: 100px;
+        height: 100px;
+    }
+  &lt;/style&gt;
+  &lt;script&gt;
+    window.onload = function() {
+        var numDivs = 3;
+        for (var i = 0; i &lt; numDivs; i++) {
+            var div = document.getElementById("div" + i);
+            div.onclick = function() {
+                console.log("You just clicked on div number " + i);
+            };
+        }
+    };
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="div0"&gt;&lt;/div&gt;
+  &lt;div id="div1"&gt;&lt;/div&gt;
+  &lt;div id="div2"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</ins>         
+</pre></div></div>
+         
+      <p><img src="save.png"> Save this in your <b>/AdvJS</b> folder as <b>divsClosure.html</b> and <img src="preview(1).png">.
+          You see three red squares. Open the console and try clicking on each of the squares. Each time you do, you'll see "You just clicked 
+          on div number 3." Can you figure out why we get "3" each time, instead of the correct value for each &lt;div&gt; (that is, 0, 1 or 
+          2)? Think about it for a few minutes before you go on.</p>
+         
+      <p>First, we've got three different &lt;div&gt;s in the page, with the ids "div0," "div1," and "div2." We want to add a click handler to
+          each &lt;div&gt;. Each click handler will do the same thing: display a message showing the number corresponding to the number in the 
+          id of the &lt;div&gt;. So if you click on the "div0" &lt;div&gt;, you'll see the message, "You just clicked on div number 0," and 
+          likewise for &lt;div&gt;s 1 and 2.</p>
+         
+      <p>So, in the code, we create a for loop to iterate through the three &lt;div&gt;s and add a click handler to each. We use the loop 
+          variable <b>i</b> for the number of the &lt;div&gt; so we can display that number in the click handler. Notice that the 
+          <span class="darkred">click handler function</span> that we assign to each of the &lt;div&gt; objects references the variable 
+          <span class="orange">i</span>, and <span class="orange">i</span> is not defined in the <span class="darkred">click handler function</span>—it's defined in the 
+          scope surrounding the <span class="darkred">click handler function</span> (that is, in the <b>window.onload</b> function).</p>
+         
+      <p>So what happens? A closure is created! When we store the function value of the <span class="darkred">click handler function</span> in the 
+          <b>onclick</b> property, that function comes along with a closure that contains the variable <span class="orange">i</span>. Later, when you 
+          click on the &lt;div&gt;, the value of <span class="orange">i</span> will be found in the closure associated with the 
+          <span class="darkred">click handler function</span>.</p>
+      
+<div class="observeBox"><div class="observeTitle">OBSERVE:</div><div class="observe"><pre>window.onload = function() {
+    var numDivs = 3;
+    for (var i = 0; i &lt; numDivs; i++) {
+        var div = document.getElementById("div" + i);
+        div.onclick = <span class="darkred">function() {
+             console.log("You just clicked on div number " + <span class="orange">i</span>);
+        };</span>
+    }
+};          
+</pre></div></div>
+      
+      <p>That all sounds good, but it's not working right. We see 3 every time we click on any of the &lt;div&gt;s instead of the 
+          correct number for the &lt;div&gt;. Why? </p>
+         
+      <p>Well, remember, a closure associated with a function is an object, and the function contains a 
+          <i>reference</i> to that closure object. So if we change the value of a variable that's captured in the closure <i>after</i> 
+          we create that closure, we're changing the value of the variable that will be used when we call that function later.</p>
+         
+      <p>In this example, each time we set the <span class="darkred">click handler function</span> to the <b>onclick</b> property of a &lt;div&gt;, 
+          the value of <span class="orange">i</span> will be correct initially, but then we change the value of <span class="orange">i</span> the next time through 
+          the loop, which changes the value in the closure we just made.</p>
+         
+      <p>Our loop stops iterating when the value of <b>i</b> is 3. So when we call any of those click handler functions later (like when 
+          you click on a &lt;div&gt;), you see the value of <b>i</b> that was in place at the end of the loop, <i>not</i> the value of 
+          <b>i</b> that was in place when the closure was created originally. </p>
+         
+      <p>Try using the console to add a breakpoint in the code to inspect the closure. Add the breakpoint on the line in the click handler 
+          function where we use <b>console.log()</b> to display the &lt;div&gt; information. Click on a &lt;div&gt; to see the closure when 
+          the click handler function is called.</p>
+         
+      <p>We can fix this by creating another closure. Let's see how:</p>
+      
+<div class="listingBox"><div class="listingTitle">CODE TO TYPE:</div><div class="listing"><pre>...
+window.onload = function() {
+    var numDivs = 3;
+    for (var i = 0; i &lt; numDivs; i++) {
+        var div = document.getElementById("div" + i);
+        <del>div.onclick = function() {
+            console.log("You just clicked on div number " + i);
+        };</del>
+        <ins>div.onclick = (function(divNum) {
+            return function() {
+                console.log("You just clicked on div number " + divNum);
+            };
+        })(i);</ins>
+    }
+};             
+</pre></div></div>
+         
+      <p><img src="save.png"> and <img src="preview(1).png">. Try clicking on each &lt;div&gt; again. Now you get 
+          the correct number 
+          values for each &lt;div&gt;.</p>
+         
+      <p>How does this work?</p>
+      
+<div class="observeBox"><div class="observeTitle">OBSERVE:</div><div class="observe"><pre>window.onload = function() {
+    var numDivs = 3;
+    for (var i = 0; i &lt; numDivs; i++) {
+        var div = document.getElementById("div" + i);
+        div.onclick = <span class="darkgreen">(function(<span class="orange">divNum</span>) {
+            return <span class="darkred">function() {
+                console.log("You just clicked on div number " + <span class="orange">divNum</span>);
+            };</span>
+        })(<span class="teal">i</span>);</span>
+    }
+};             
+</pre></div></div>
+         
+      <p>When we assign the value of each &lt;div&gt;'s <span class="darkred">click handler function</span>, we do so by executing 
+          <span class="darkgreen">another function</span> that returns a function value for the <span class="darkred">click handler</span>. 
+          <span class="darkgreen">This function</span> executes right away. It seem a little odd because we're putting the function 
+          expression in parentheses first, and after the function expression, we have another set of parentheses: </p>
+      
+<div class="observeBox"><div class="observeTitle">OBSERVE:</div><div class="observe"><pre>div.onclick = <span class="darkgreen">(function(<span class="orange">divNum</span>) { ... })  (<span class="teal">i</span>);</span>           
+</pre></div></div>
+      
+      <p>We're <i>calling</i> the <span class="darkgreen">function we just created</span>. (We'll talk more about this 
+          pattern of creating and calling a function in one step in a later lesson).</p>
+         
+      <p>Putting the function expression in parentheses makes sure the function expression is treated as an expression, and not a 
+          function declaration. Also, we pass the value of <span class="teal">i</span> into the <span class="darkgreen">function we're calling</span>. The 
+          value gets passed into a variable <span class="orange">divNum</span>, which is used by <span class="darkred">a function</span> we're returning from the 
+          <span class="darkgreen">function we just called</span>. When we return <span class="darkred">a function</span> from <span class="darkgreen">a function</span>, 
+          we create a closure that contains any variables referenced by the <span class="darkred">the function being returned</span> that are defined 
+          in the <span class="darkgreen">function that contains it</span>. In this case, both of these functions are anonymous; we're not actually giving 
+          them names like we did before with <b>makeAdder()</b> and <b>adder()</b>, but that's okay. The closure works in exactly the same 
+          way. In this case, the closure associated with the <span class="darkred">the function being returned</span> contains the value of 
+          <span class="orange">divNum</span>. Note that this value <i>does not change</i>. Even if the value of <span class="teal">i</span> changes,  
+          the value of <span class="orange">divNum</span> in the closure does not (remember that arguments are passed by value to functions, so 
+          <span class="orange">divNum</span> gets a <i>copy</i> of the value in <span class="teal">i</span>).</p>
+         
+      <p>The <span class="darkred">function that's returned</span> is assigned to the <b>div.onclick</b> property, so it is available once the 
+          <b>window.onload</b> function has completed. That means that the values in that function's closure are also available, so when you 
+          click on a &lt;div&gt;, you'll get the correct number for that &lt;div&gt; because you're accessing the 
+          <span class="orange">divNum</span> variable in the closure. Add a breakpoint to the code on the <b>console.log()</b> line again (line 23
+          in our version), and inspect the closure when you click on a &lt;div&gt;. You'll see the variable <b>divNum</b> and the correct 
+          number for the &lt;div&gt; you clicked on:</p>
+         
+      <p></p><div class="c"><img src="Closure11.png" style="cursor: zoom-in;"></div><p></p>
+         
+      <p>Using a closure like this to capture the current value of a variable by passing it to a function that returns another function is a 
+          common technique used by JavaScript programmers (and one we'll look at more in the next lesson).</p>
+     
+  </div></div>
+  <a name="s_08"></a><div id="s_08"><div class="subheading">Where We've Used Closures Before</div><div class="subheadingText">
+  
+      <p>Before we end the lesson, let's look at two examples from earlier in the course where we used closures.</p>
+         
+      <p>First, take another look at the example, <b>AdvJS/functions3.html</b> from the 
+          <a href="https://students.oreillyschool.com/coursecontent/advancedjavascript/Functions.html#returning_a_function_from_a_function" target="_blank">Functions lesson</a>. (If you don't have this 
+          file, no worries—you can copy it in and save it as <b>AdvJS/functions3.html</b>.)</p>
+         
+<div class="listingBox"><div class="listingTitle">CODE TO TYPE: This code is in the file functions3.html in your AdvJS/ folder</div><div class="listing"><pre>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Returning Functions &lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;script&gt;
+    function makeConverterFunction(multiplier, term) {
+        return function(input) {
+            var convertedValue = input * multiplier;
+            convertedValue = convertedValue.toFixed(2);
+            return convertedValue + " " + term;
+        };
+    }
+
+    var kilometersToMiles = makeConverterFunction(0.6214, "miles");
+    console.log("10 km is " + kilometersToMiles(10));
+
+    var milesToKilometers = makeConverterFunction(1.62, "km");
+    console.log("10 miles is " + milesToKilometers(10));
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;        
+</pre></div></div>
+         
+      <p>We created this example to show how to return a function from a function. The function we return from 
+          <b>makeConverterFunction</b> references the two parameters: <b>multiplier</b> and <b>term</b>. When we call the 
+          returned function later (as <b>kilometersToMiles()</b> or as <b>milesToKilometers()</b>), we'll use the closures 
+          associated with the 
+          two functions that captured the context—the values of the parameters when the function was defined and returned—to 
+          determine the values of those variables.</p>
+         
+      <p>Try adding a breakpoint inside the function that's returned (within <b>makeConverterFunction</b>) so you can see the closures in 
+          action.</p>
+         
+      <p>Let's also look again at the <b>squaresAPI.html</b> example from the <a href="https://students.oreillyschool.com/coursecontent/advancedjavascript/EncapsulationAndAPIS.html#an_example" target="_blank">Encapsulation and APIs lesson</a>. In that lesson we talked about encapsluation and information hiding. We used a 
+          constructor, <b>Square()</b>, to create objects, but kept some of the data in the object being created private by not assigning 
+          values to properties of the object. Instead we used local variables and nested functions. (Again, if you no longer have the file 
+          <b>squaresAPI.html</b> in your <b>AdvJS/</b> folder, feel free to copy it in from here and save it as <b>AdvJS/squares.html</b>.)</p>
+      
+<div class="listingBox"><div class="listingTitle">CODE TO TYPE: This code is in the file squaresAPI.html in your AdvJS/ folder</div><div class="listing"><pre>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt; Squares with API &lt;/title&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;style&gt;
+    .square {
+        background-color: lightblue;
+        cursor: pointer;
+    }
+    .square p {
+        padding-top: 35%;
+        text-align: center;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+  &lt;/style&gt;
+  &lt;script&gt;       
+    function Square(size) {
+        var initialSize = size;
+        var el = null;
+        var id = getNextId();
+
+        this.grow = function() {
+            setBigger(10);
+            setColor("red");
+        };
+        
+        this.reset = function() {
+            setBigger(initialSize - size);
+            setColor("lightblue");
+        };
+
+        var self = this;
+        display();
+
+        function setBigger(growBy) {
+            if (el) {
+                size += growBy;
+                el.style.width = size + "px";
+                el.style.height = size + "px";
+            }
+        }
+
+        function setColor(color) {
+            if (el) {
+                el.style.backgroundColor = color;
+            }
+        }
+
+        function display() {
+            el = document.createElement("div");
+            el.setAttribute("id", id);
+            el.setAttribute("class", "square");
+            el.style.width = size + "px";
+            el.style.height = size + "px";
+            el.innerHTML = "&lt;p&gt;" + id + "&lt;/p&gt;";
+            el.onclick = self.grow;
+            document.getElementById("squares").appendChild(el);
+        }
+
+        function getNextId() {
+            var squares = document.querySelectorAll(".square");
+            if (squares) {
+                return squares.length;
+            }
+            return 0;
+        }
+    }
+    
+    window.onload = function() {
+        var square1 = new Square(100);
+        var square2 = new Square(200);
+
+        var growButton = document.getElementById("growButton");
+        growButton.onclick = function() {
+            square1.grow();
+            square2.grow();
+        };
+
+    };
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form&gt;
+    &lt;input type="button" id="growButton" value="Grow!"&gt;
+&lt;/form&gt;
+&lt;div id="squares"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;       
+</pre></div></div>
+         
+      <p>The closure created by the <b>Square()</b> constructor is a little less obvious, but it's there. In <b>this.grow()</b>, 
+          we refer to two nested functions, <b>setBigger()</b> and <b>setColor()</b>. Both are nested functions which means they are 
+          <i>local</i> variables in the <b>Square()</b> constructor. Just like any other kind of local variable, like <b>initialSize</b> 
+          or <b>id</b>, the values of these functions will disappear once <b>Square()</b> completes executing.</p>
+         
+      <p>Because we reference these functions in <b>this.grow()</b>, the functions are added to the closure for the <b>this.grow()</b> 
+          method. In addition, any local variables that are in scope for these two functions are also added to the closure. Why? Because those 
+          values might be needed when we call <b>square1.grow()</b> and <b>square2.grow()</b>, otherwise, we'd get a reference error. So both 
+          of the function values that are used directly by <b>this.grow()</b>, as well as any other variables in scope for those two functions, 
+          are added to the closure. You can inspect the closure by adding a breakpoint to one of the lines of code in <b>this.grow()</b>. 
+          When you click the <b>Grow</b> button to call the <b>this.grow()</b> method of the square, you'll hit the breakpoint, and you'll be 
+          able to see the closure:</p>
+         
+      <p></p><div class="c"><img src="Closure10.png" style="cursor: zoom-in;"></div><p></p>
+      
+  </div></div>
+
+ </div>
+
+    <p>Whenever you create a function that references variables from the surrounding context, a closure is created. If you return that 
+        function from a function, or assign it to an object property, so the function is available outside of the context within which it was 
+        created, the closure comes along with the function. This means the function can "remember" the values of the variables it references. 
+        This is where the closure gets its name: a closure "closes" over the variables in scope when the function is created so it can keep 
+        them available for the function later, after the original context disappears. Think of closures as functions plus scope. 
+        If you understand scope, you'll understand closures too.</p> 
+    
+    <p>Note that closures aren't necessary for global variables, because global variables have global scope. They are available 
+        everywhere in your code, so there's no need to "remember" them in a closure.</p>
+    
+    <p>The primary use for closures is to create private data, like we did with the counter example and with the squares example. You'll see 
+        closures used this way frequently (for example, in libraries like jQuery and Backbone.js).</p>
+    
+    <p>Closures are notoriously tricky to wrap your head around, so take some extra time to review the lesson again and make sure you've got 
+        it. Use the Chrome console to inspect the closures you create to help you understand what's going on.</p>
+    
+<div class="footer"><div id="timeSurvey"><iframe frameborder="0" width="400" height="150" src="time_survey.html"></iframe></div>				
+				Copyright © 1998-2014 O'Reilly Media, Inc.<br><img src="cclicense.png"><br>
+				This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.<br>
+				See <a href="http://creativecommons.org/licenses/by-sa/3.0/legalcode">http://creativecommons.org/licenses/by-sa/3.0/legalcode</a> 
+				for more information.
+				</div><iframe id="t" width="1" height="1" border="0" style="display:none" src="about:blank"></iframe><script language="javascript">bodyLoaded();</script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-44720547-1', 'oreillyschool.com');
+  ga('send', 'pageview');
+</script></body></html>

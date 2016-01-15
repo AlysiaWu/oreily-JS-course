@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <title> Advanced JavaScript Project: Constructing Array Objects </title>
+  <meta charset="utf-8">
+  <script>
+    var myArray = [1, 2, 3, 4];
+    console.log(myArray);
+    var name = "newArray";
+    myArray.push(name);
+    var list = function (myArray){
+    	for (var i = 0; i < myArray.length; i ++) {
+    		console.log(i + " " + myArray[i]);
+    	}
+    }
+    myArray.push(list);
+    function displayArray(arr) {
+    	for (var j = 0; j < arr.length; j ++) {
+    		console.log(j + " " + arr[j]);
+    		if(j == arr.length - 1) {
+    			arr[j](arr);
+    		}
+    	}
+    }
+    displayArray(myArray);
+  </script>
+</head>
+<body>
+</body>
+</html>

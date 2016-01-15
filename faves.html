@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <title> Advanced JavaScript Project: Favorites and Tags  </title>
+  <meta charset="utf-8">
+  <style>
+    body {
+        font-family: Helvetica, Ariel, sans-serif;
+    }
+    form {
+        display: table;
+        border-spacing: 5px;
+    }
+    form p {
+        display: table-row;
+    }
+    form label {
+        display: table-cell;
+        text-align: right;
+    }
+    form input {
+        display: table-cell;
+    }
+    span.comment {
+        font-size: 80%;
+        color: #777777;
+    }
+    span.tags {
+        font-size: 80%;
+        color: rgb(48, 99, 170);
+    }
+  </style>
+  <script> 
+  window.onload = init; 
+  function init () {
+     document.getElementById("submit").addEventListener("click", displayFaves);
+  
+  }
+
+    function Faves(url, Title, Comment, Tags) {
+    this.url = url; 
+    this.Title = Title; 
+    this.Comment = Comment;
+    this.Tags = Tags;
+    this.display = function () {
+        console.log('it is getting here')
+        var data = "<li><a href="+url+">"+Title+"</a></li><br>" +Comment + "<br>";
+        var tagsinfo = "Tags: ";
+        for (var i = 0; i < Tags.length-1; i ++) {
+            tagsinfo += Tags[i]+ ", " 
+        }
+        tagsinfo +=Tags[Tags.length-1];
+        console.log("tagsinfo" + tagsinfo);
+        data += tagsinfo;
+        console.log("data" + data);
+        document.getElementById("faves").innerHTML += data;
+    }
+  }
+    function displayFaves(event) {
+        event.preventDefault()
+        var url = document.getElementById("url").value;
+        var Title = document.getElementById("Title").value;
+        var Comment = document.getElementById("Comment").value; 
+        var Tags = document.getElementById("Tags").value.split(","); 
+        console.log(Tags); 
+        var newfave = new Faves(url, Title, Comment, Tags);
+        display = newfave.display;
+        display();
+        console.log(newfave);
+    }    
+  </script>   
+
+  </head>
+  <body>
+      <h1>Tag and save your favorite</h1>
+      <form>
+          <p>Add a new favorite: </p><br>
+          <p><label for = "url">URL: </label><input id = "url" type = "text" name = "url"><br></p>
+          <p><label for = "Title">Title: </label><input id = "Title" type= "text" name = "Title"><br></p>
+          <p><label for = "Comment">Comment: </label><input id = "Comment" type= "text" name = "Comment"><br></p>
+          <p><label for = "Tags">Tags: </label><input id = "Tags" type= "text" name = "Tags"><br></p>
+          <input type = "submit" id = "submit" value = "Add link">
+
+      </form>
+      <div id="faves"></div>
+  </body>
+
+  </html>     
